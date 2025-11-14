@@ -1,32 +1,13 @@
-def bead_sort_optimized(arr):
-    """
-    Оптимизированная версия сортировки бусинами
-    """
-    if not arr:
-        return []
-    
-    # Создаем копию массива для работы
-    beads = [0] * max(arr)
-    
-    # Распределяем бусины по уровням
-    for num in arr:
-        for i in range(num):
-            beads[i] += 1
-    
-    # Собираем результат
-    result = []
-    for i in range(len(arr)):
-        level = 0
-        while level < len(beads) and beads[level] > 0:
-            level += 1
-        result.append(level)
-        # Убираем одну бусину с каждого уровня
-        for j in range(level):
-            beads[j] -= 1
-    
-    return result
-
-# Пример использования
-arr = [5, 3, 1, 7, 4, 1, 1, 20]
-print("Исходный массив:", arr)
-print("Отсортированный массив:", bead_sort_optimized(arr))
+def bead_sort_simple(arr):
+    for i in range(len(arr)):                           # Первый проход слева направо
+        for j in range(i + 1, len(arr)):
+            if arr[i] > arr[j]:                         # Если левый столбец выше
+                arr[i] -= 1                             # Бусина падает вниз
+                arr[j] += 1                             # Бусина поднимается вверх
+    for i in range(len(arr)-1, -1, -1):                # Второй проход справа налево
+        for j in range(i-1, -1, -1):
+            if arr[i] < arr[j]:                         # Если правый столбец ниже
+                arr[i] += 1
+                arr[j] -= 1
+    return arr
+print(bead_sort_simple([2, 4, 1, 3]))
